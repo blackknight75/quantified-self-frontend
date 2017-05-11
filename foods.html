@@ -5,6 +5,36 @@
   <title>Quantified Self - Manage Foods</title>
 </head>
 <body>
+<h3>Manage Foods</h3>
+
+  <form id="new-food" action="<HEROKU ENDPOINT>" method="post">
+    <p>Name</p>
+    <input type="text" name="name" placeholder="Type name of food"><br>
+    <p>Calories</p>
+    <input type="text" name="calories" placeholder="Type calories for food item"><br><br>
+    <input type="button" onclick="submitFood" value="Add Food">
+  </form>
+<script>
+  function submitFood() {
+    document.getElementById("new-food").submit();
+  }
+</script>
+
+<br><br>
+  <table>
+  <tr>
+    <th>Name</th>
+    <th>Calories</th>
+  </tr>
+  <tr>
+    <td>Banana</td>
+    <td>100</td>
+  </tr>
+  <tr>
+    <td>Apple</td>
+    <td>75</td>
+  </tr>
+</table>
 
   <script src="main.bundle.js"></script>
 </body>
