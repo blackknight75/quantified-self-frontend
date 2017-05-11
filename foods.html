@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
   <meta charset="utf-8">
   <title>Quantified Self - Manage Foods</title>
 </head>
@@ -14,13 +19,6 @@
     <input type="text" name="calories" placeholder="Type calories for food item"><br><br>
     <input type="button" onclick="submitFood" value="Add Food">
   </form>
-
-  <script>
-    function submitFood() {
-      debugger;
-      document.getElementById("new-food").submit();
-    }
-  </script>
 
   <br><br>
 
@@ -39,7 +37,7 @@
       <td>75</td>
     </tr>
   </table>
-
+  
   <script src="main.bundle.js"></script>
 </body>
 </html>
