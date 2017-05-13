@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
   <meta charset="utf-8">
   <title>Quantified Self - Manage Foods</title>
 </head>
 <body>
+  <h3>Manage Foods</h3>
 
-  <script src="main.bundle.js"></script>
+  <form id="new-food" action="<HEROKU ENDPOINT>" method="post">
+    <p>Name</p>
+    <input type="text" name="name" placeholder="Type name of food"><br>
+    <p>Calories</p>
+    <input type="text" name="calories" placeholder="Type calories for food item"><br><br>
+    <input type="button" onclick="submitFood" value="Add Food">
+  </form>
+
+  <br><br>
+
+  <table id="food-table">
+    <tr>
+      <th>Name</th>
+      <th>Calories</th>
+    </tr>
+  </table>
+
+<script src="main.bundle.js"></script>
 </body>
 </html>
