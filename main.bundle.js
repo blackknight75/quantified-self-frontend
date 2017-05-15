@@ -45,29 +45,65 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	const $ = __webpack_require__(1);
-	const host = "http://localhost:3000";
-
-	function logFood(msg) {
-	  return msg;
-	  // console.log("name:", msg.name);
-	  // console.log("calories:", msg.calories);
-	}
+	const host = "https://quantified-self-dan-eric.herokuapp.com";
 
 	function getFood() {
-	  $.getJSON(`${host}/api/v1/foods`).then(logFood).catch(function (error) {
+	  $.getJSON(`${host}/api/v1/foods`).then(populateFood).catch(function (error) {
 	    console.log(error);
 	  });
 	}
 
-	getFood();
+	function populateFood(foods) {
+	  var trHTML = '';
+	  $.each(foods, function (i, food) {
+	    trHTML += `<tr id=${food.id} class="food-row"><td>` + food.name + '</td><td>' + food.calories + '</td><td>' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	  });
 
-	// $.post("http://",
-	//   {post: {name: "orange", calories: 100}}, //data passed to params
-	//   function(msg){
-	//     console.log("name:", msg.name);
-	//   },
-	//   "json"
-	// )
+	  $('#food-table').append(trHTML);
+	  $(".remove").click(function () {
+	    $(deleteFood(this.id));
+	  });
+	}
+
+	function deleteFood(food_id) {
+	  $.ajax({
+	    method: "DELETE",
+	    url: `${host}/api/v1/foods/${food_id}`
+	  });
+	  $(`#${food_id}`).closest('tr').remove();
+	}
+
+	function newFood() {
+	  var foodName = $('#food-name')[0].value;
+	  var foodCalories = $('#food-calories')[0].value;
+
+	  $.ajax({
+	    method: "POST",
+	    url: `${host}/api/v1/foods`,
+	    data: { name: foodName, calories: foodCalories }
+	  });
+	}
+
+	// function filterFood(){
+	//   var foodFilter = $('#name-filter')[0].value;
+	//   var rows = $('#food-table tr.food-row')
+	//   rows.hide()
+	//   // $.ajax({
+	//   //   method: "GET",
+	//   //   url:`${host}/api/v1/foods`
+	//   // })
+	// }
+
+	$(document).ready(function () {
+	  $(getFood());
+	  $("#create-food").click(function () {
+	    newFood();
+	  });
+
+	  $("#filter-foods").click(function () {
+	    filterFood();
+	  });
+	});
 
 /***/ }),
 /* 1 */
