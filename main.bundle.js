@@ -44,8 +44,15 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	const $ = __webpack_require__(1);
-	const host = "https://quantified-self-dan-eric.herokuapp.com";
+	__webpack_require__(1);
+	__webpack_require__(3);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	const $ = __webpack_require__(2);
+	const host = "http://localhost:3000";
 
 	function getFood() {
 	  $.getJSON(`${host}/api/v1/foods`).then(populateFood).catch(function (error) {
@@ -56,7 +63,7 @@
 	function populateFood(foods) {
 	  var trHTML = '';
 	  $.each(foods, function (i, food) {
-	    trHTML += `<tr id=${food.id} class="food-row"><td>` + food.name + '</td><td>' + food.calories + '</td><td>' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	    trHTML += `<tr id=${food.id}><td>` + food.name + '</td><td>' + food.calories + '</td><td>' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
 	  });
 
 	  $('#food-table').append(trHTML);
@@ -88,11 +95,12 @@
 	//   var foodFilter = $('#name-filter')[0].value;
 	//   var rows = $('#food-table tr.food-row')
 	//   rows.hide()
-	//   // $.ajax({
-	//   //   method: "GET",
-	//   //   url:`${host}/api/v1/foods`
-	//   // })
+	//   $.ajax({
+	//     method: "GET",
+	//     url:`${host}/api/v1/foods/`
+	//   })
 	// }
+
 
 	$(document).ready(function () {
 	  $(getFood());
@@ -106,7 +114,7 @@
 	});
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10363,6 +10371,80 @@
 	return jQuery;
 	} );
 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	const $ = __webpack_require__(2);
+	const host = "http://localhost:3000";
+	// const pry = require('pryjs')
+
+	function getDiary() {
+	  var date = `2017-05-18`;
+
+	  $.getJSON(`${host}/api/v1/diaries/${date}`).then(function (data) {
+	    populateDiary(data);
+	  });
+	};
+
+	function populateDiary(data) {
+	  var breakfast = '';
+	  var lunch = '';
+	  var dinner = '';
+	  var snack = '';
+	  $.each(data, function (i, food) {
+	    // debugger;
+	    if (food.category == 'Dinner') {
+	      dinner += `<tr id=${food.id}><td align="center">` + food.name + '</td><td align="center">' + food.calories + '</td><td align="center">' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	    } else if (food.category == 'Breakfast') {
+	      breakfast += `<tr id=${food.id}><td align="center">` + food.name + '</td><td align="center">' + food.calories + '</td><td align="center">' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	    } else if (food.category == 'Lunch') {
+	      lunch += `<tr id=${food.id}><td align="center">` + food.name + '</td><td align="center">' + food.calories + '</td><td align="center">' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	    } else if (food.category == 'Snack') {
+	      snack += `<tr id=${food.id}><td align="center">` + food.name + '</td><td align="center">' + food.calories + '</td><td align="center">' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	    } else {
+	      done();
+	    }
+	    // debugger;
+	  });
+	  $('#dinner').append(dinner);
+	  $('#lunch').append(lunch);
+	  $('#breakfast').append(breakfast);
+	  $('#snack').append(snack);
+	  $(".remove").click(function () {
+	    $(removeFromTable(this.id));
+	  });
+	};
+
+	function removeFromTable(food_id) {
+	  $.ajax({
+	    method: "DELETE",
+	    url: `${host}/api/v1/meal_food/${food_id}`
+	  });
+	  $(`#${food_id}`).closest('tr').remove();
+	}
+
+	$(document).ready(function () {
+	  getDiary();
+	});
+
+	// if (time < 10) {
+	//     greeting = "Good morning";
+	// } else if (time < 20) {
+	//     greeting = "Good day";
+	// } else {
+	//     greeting = "Good evening";
+	// }
+
+	//
+	// var groupBy = function(xs, key) {
+	//   return xs.reduce(function(rv, x) {
+	//     (rv[x[key]] = rv[x[key]] || []).push(x);
+	//     return rv;
+	//   }, {});
+	// };
+	// console.log(groupBy(['one', 'two', 'three'], 'length'));
 
 /***/ })
 /******/ ]);
