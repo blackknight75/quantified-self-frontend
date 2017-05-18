@@ -52,7 +52,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	const $ = __webpack_require__(2);
-	const host = "http://localhost:3000";
+	const host = "https://quantified-self-dan-eric.herokuapp.com";
 
 	function getFood() {
 	  $.getJSON(`${host}/api/v1/foods`).then(populateFood).catch(function (error) {
@@ -10377,7 +10377,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	const $ = __webpack_require__(2);
-	const host = "http://localhost:3000";
+	const host = "https://quantified-self-dan-eric.herokuapp.com";
 	// const pry = require('pryjs')
 
 	function getDiary() {
@@ -10394,19 +10394,17 @@
 	  var dinner = '';
 	  var snack = '';
 	  $.each(data, function (i, food) {
-	    // debugger;
 	    if (food.category == 'Dinner') {
-	      dinner += `<tr id=${food.id}><td align="center">` + food.name + '</td><td align="center">' + food.calories + '</td><td align="center">' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	      dinner += `<tr id=${food.id}><td>` + food.name + '</td><td>' + food.calories + '</td><td>' + `<button id="${food.id}" class="remove">Remove</button>` + '</td></tr>';
 	    } else if (food.category == 'Breakfast') {
-	      breakfast += `<tr id=${food.id}><td align="center">` + food.name + '</td><td align="center">' + food.calories + '</td><td align="center">' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	      breakfast += `<tr id=${food.id}><td>` + food.name + '</td><td>' + food.calories + '</td><td>' + `<button id="${food.id}" class="remove">Remove</button>` + '</td></tr>';
 	    } else if (food.category == 'Lunch') {
-	      lunch += `<tr id=${food.id}><td align="center">` + food.name + '</td><td align="center">' + food.calories + '</td><td align="center">' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	      lunch += `<tr id=${food.id}><td>` + food.name + '</td><td>' + food.calories + '</td><td>' + `<button id="${food.id}" class="remove">Remove</button>` + '</td></tr>';
 	    } else if (food.category == 'Snack') {
-	      snack += `<tr id=${food.id}><td align="center">` + food.name + '</td><td align="center">' + food.calories + '</td><td align="center">' + `<button id="${food.id}" class="remove">Delete</button>` + '</td></tr>';
+	      snack += `<tr id=${food.id}><td>` + food.name + '</td><td>' + food.calories + '</td><td>' + `<button id="${food.id}" class="remove">Remove</button>` + '</td></tr>';
 	    } else {
 	      done();
 	    }
-	    // debugger;
 	  });
 	  $('#dinner').append(dinner);
 	  $('#lunch').append(lunch);
@@ -10417,6 +10415,24 @@
 	  });
 	};
 
+	function getFood() {
+	  $.getJSON(`${host}/api/v1/foods`).then(populateFood).catch(function (error) {
+	    console.log(error);
+	  });
+	}
+
+	function populateFood(foods) {
+	  var trHTML = '';
+	  $.each(foods, function (i, food) {
+	    trHTML += `<tr id=${food.id}><td>` + `<input id="box${food.id}" type="checkbox"></input>` + '</td><td>' + food.name + '</td><td>' + food.calories + '</td></tr>';
+	  });
+
+	  $('#diary-food-table').append(trHTML);
+	  $(".remove").click(function () {
+	    $(deleteFood(this.id));
+	  });
+	}
+
 	function removeFromTable(food_id) {
 	  $.ajax({
 	    method: "DELETE",
@@ -10425,26 +10441,55 @@
 	  $(`#${food_id}`).closest('tr').remove();
 	}
 
+	function addToBreakfast() {
+	  var diaryDate = $('#diary-date')[0].value;
+	  getDiaryId(diaryDate);
+	}
+
+	function getDiaryId(date) {
+	  $.ajax({
+	    method: "GET",
+	    url: `${host}/api/v1/diaries/get-id/${date}`
+	  }).then(function (data) {
+	    var js_row = null;
+	    var checked_rows = [];
+	    $("#diary-food-table > tbody > tr").each(function (i, row) {
+	      if (i > 0) {
+	        js_row = {
+	          diary_id: data[0].id,
+	          food_id: this.id,
+	          checked: this.children[0].firstChild.checked,
+	          name: this.children[1].innerText,
+	          calories: this.children[2].innerText,
+	          category: "Breakfast"
+	        };
+	        if (js_row.checked == true) {
+	          checked_rows.push(js_row);
+	        }
+	      }
+	    });
+	    return checked_rows;
+	  }).then(function (data) {
+	    data.forEach(function (item, i) {
+	      debugger;
+	      addMealToTable(item);
+	    });
+	  });
+	}
+
+	function addMealToTable(item) {
+	  debugger;
+	  $.post(`${host}/api/v1/meals`, { category: item.category, diary_id: item.diary_id });
+	}
+
 	$(document).ready(function () {
 	  getDiary();
+	  $("#breakfast-button").click(function () {
+	    $(addToBreakfast());
+	  });
+	  $(getFood());
+	  $("");
 	});
-
-	// if (time < 10) {
-	//     greeting = "Good morning";
-	// } else if (time < 20) {
-	//     greeting = "Good day";
-	// } else {
-	//     greeting = "Good evening";
-	// }
-
-	//
-	// var groupBy = function(xs, key) {
-	//   return xs.reduce(function(rv, x) {
-	//     (rv[x[key]] = rv[x[key]] || []).push(x);
-	//     return rv;
-	//   }, {});
-	// };
-	// console.log(groupBy(['one', 'two', 'three'], 'length'));
 
 /***/ })
 /******/ ]);
