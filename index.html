@@ -11,40 +11,67 @@
 </head>
 <body>
   <h3>Main Diary</h3>
+  <form action="http://localhost:8080/webpack-dev-server/foods.html" class="create-food">
+    <input value="Previous" type="submit" style="width:75px" />
+    <input id="diary-date" value="2017-05-18" type="submit" style="width:200px" />
+    <input value="Next" type="submit" style="width:75px" />
+  </form>
 
-  <table id="breakfast" style="border: 2px solid black">
+  <table id="breakfast" style="border: 2px solid black" width="350px">
     <caption>Breakfast</caption>
     <tr>
-      <th>Name</th>
-      <th>Calories</th>
-      <th>Remove Food</th>
+      <th style="background-color: #2196f3; color: white;">Name</th>
+      <th style="background-color: #2196f3; color: white;">Calories</th>
+      <th style="background-color: #2196f3; color: white;">Remove Food</th>
     </tr>
   </table>
 
-  <table id="lunch" style="border: 2px solid black">
+  <table id="lunch" style="border: 2px solid black" width="350px">
     <caption>Lunch</caption>
     <tr>
-      <th>Name</th>
-      <th>Calories</th>
-      <th>Remove Food</th>
+      <th style="background-color: #2196f3; color: white;">Name</th>
+      <th style="background-color: #2196f3; color: white;">Calories</th>
+      <th style="background-color: #2196f3; color: white;">Remove Food</th>
     </tr>
   </table>
 
-  <table id="dinner" style="border: 2px solid black">
+  <table id="dinner" style="border: 2px solid black" width="350px">
     <caption>Dinner</caption>
     <tr>
-      <th >Name</th>
-      <th>Calories</th>
-      <th>Remove Food</th>
+      <th style="background-color: #2196f3; color: white;"; >Name</th>
+      <th style="background-color: #2196f3; color: white;">Calories</th>
+      <th style="background-color: #2196f3; color: white;">Remove Food</th>
     </tr>
   </table>
 
-  <table id="snack" style="border: 2px solid black">
+  <table id="snack" style="border: 2px solid black" width="350px">
     <caption>Snack</caption>
     <tr>
+      <th style="background-color: #2196f3; color: white;">Name</th>
+      <th style="background-color: #2196f3; color: white;">Calories</th>
+      <th style="background-color: #2196f3; color: white;">Remove Food</th>
+    </tr>
+  </table>
+
+  <h3>Foods</h3>
+  <form action="http://localhost:8080/webpack-dev-server/foods.html" class="create-food">
+    <input value="Create New" type="submit" />
+  </form>
+  <br>
+  <form class="meal-buttons">
+    <input id="breakfast-button" value="Breakfast" type="submit" />
+    <input id="lunch-button" value="Lunch" type="submit" />
+    <input id="dinner-button" value="Dinner" type="submit" />
+    <input id="snack-button" value="Snack" type="submit" />
+  </form>
+
+<br><br>
+
+  <table id="diary-food-table" style="border: 2px solid black">
+    <tr>
+      <th></th>
       <th>Name</th>
       <th>Calories</th>
-      <th>Remove Food</th>
     </tr>
   </table>
 
